@@ -27,6 +27,15 @@ stop_words = stopwords.words("english")
 pattern = re.compile(r"[^a-zA-Z0-9]")
 
 def load_data(database_filepath):
+    """Loads the data from the database and returns the dataframe
+
+    Args:
+        database_filepath (str): The path to the database file
+
+    Returns:
+        df (pandas.DataFrame): The dataframe containing the data
+    """
+
     path = pathlib.Path(os.path.abspath(database_filepath)).as_uri().replace("file:", "sqlite:")
     engine = create_engine(path)
 
@@ -43,6 +52,15 @@ def load_data(database_filepath):
 
 
 def tokenize(text):
+    """Tokenizes the text
+
+    Args:
+        text (str): The text to tokenize
+
+    Returns:
+        tokens (list): The list of tokens
+    """
+
     text = pattern.sub(" ", text.lower())
     tokens = word_tokenize(text)
 
@@ -51,6 +69,15 @@ def tokenize(text):
     return tokens
 
 def convert_params(params):
+    """Convert GridSearchCV best parameters to acceptable dictionary format that can be fed again to GridSearchCV.
+
+    Args:
+        params (dict): Dictionary of best parameters.
+
+    Returns:
+        dict: Dictionary of best parameters in acceptable format.
+    """
+ 
     dict = {}
     for key in params:
         dict[key] = [params[key]]
@@ -58,6 +85,16 @@ def convert_params(params):
     return dict
 
 def get_metrics(y_test, y_pred):
+    """Flatten classification report dictionary to dataframe for easier processing.
+    
+    Args:
+        y_test (pandas.DataFrame): Test set labels.
+        y_pred (pandas.DataFrame): Predicted labels.
+
+    Returns:
+        pandas.DataFrame: Classification report in dataframe format.
+    """
+
     scores = []
 
     for i, col in enumerate(y_test.columns):
@@ -87,6 +124,17 @@ def get_metrics(y_test, y_pred):
     return pd.DataFrame.from_records(scores)
 
 def build_model():
+    """Creates a GridSearchCV pipeline for the model.
+
+    Parameters include unigram and bigram, minimum and maximum document frequency, and the classifier.
+
+    Args:
+        None
+
+    Returns:
+        sklearn.pipeline.Pipeline: The GridSearchCV pipeline.
+    """
+
     pipeline = Pipeline([
         ("features", ColumnTransformer([
             ("genre_category", OneHotEncoder(dtype=int), ["genre"]),
@@ -112,6 +160,18 @@ def build_model():
     return cv
 
 def evaluate_model(model, X_test, Y_test, category_names):
+    """Evaluates the model on the test set.
+
+    Args:
+        model (sklearn.pipeline.Pipeline): The model to evaluate.
+        X_test (pandas.DataFrame): The test set.
+        Y_test (pandas.DataFrame): The test labels.
+        category_names (list): The category names.
+
+    Returns:
+        None
+    """
+
     y_pred = model.predict(X_test)
     metrics = get_metrics(Y_test, y_pred)
 

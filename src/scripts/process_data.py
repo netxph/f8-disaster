@@ -3,6 +3,16 @@ import pandas as pd
 from sqlalchemy import create_engine
 
 def load_data(messages_filepath, categories_filepath):
+    """Load data from csv files and merge them into one dataframe
+
+    Args:
+        messages_filepath (str): path to messages csv file
+        categories_filepath (str): path to categories csv file
+
+    Returns:
+        df (pandas.DataFrame): merged dataframe
+    """
+
     messages = pd.read_csv(messages_filepath)
     categories = pd.read_csv(categories_filepath)
 
@@ -28,6 +38,17 @@ def load_data(messages_filepath, categories_filepath):
     return df
 
 def clean_data(df):
+    """Clean dataframe by removing duplicates and dropping columns with only one value
+
+    Args:
+        df (pandas.DataFrame): dataframe to clean
+
+    Returns:
+        df (pandas.DataFrame): cleaned dataframe
+
+    """
+
+
     # drop columns that has only one value
     one_unique_cols = df.loc[:, df.nunique() == 1].columns.to_list()
     df = df.drop(columns=one_unique_cols)
@@ -39,6 +60,15 @@ def clean_data(df):
     return df
 
 def save_data(df, database_filename):
+    """Save dataframe to sqlite database
+
+    Args:
+        df (pandas.DataFrame): dataframe to save
+        database_filename (str): path to database file. Path should be in a directory format not SQLite URI format.
+
+    Returns:
+        None
+    """
     path = pathlib.Path(os.path.abspath(database_filename)).as_uri().replace("file:", "sqlite:")
     engine = create_engine(path)
     df.to_sql('Message', engine, if_exists="replace", index=False)
