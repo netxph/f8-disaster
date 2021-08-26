@@ -172,6 +172,9 @@ def evaluate_model(model, X_test, Y_test, category_names):
         None
     """
 
+    # monkey patch category names
+
+    model.feature_names = category_names
     y_pred = model.predict(X_test)
     metrics = get_metrics(Y_test, y_pred)
 
