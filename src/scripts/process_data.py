@@ -36,8 +36,11 @@ def clean_data(df):
     df = df.drop_duplicates(subset=["id"])
     df = df[df.message != "#NAME?"]
 
+    return df
+
 def save_data(df, database_filename):
-    engine = create_engine(pathlib.Path(os.path.abspath(database_filename)).as_uri())
+    path = pathlib.Path(os.path.abspath(database_filename)).as_uri().replace("file:", "sqlite:")
+    engine = create_engine(path)
     df.to_sql('Message', engine, if_exists="replace", index=False)
 
 
