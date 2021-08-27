@@ -1,13 +1,6 @@
 import sys
 import joblib
 import pandas as pd
-import re
-
-from nltk.stem.wordnet import WordNetLemmatizer
-from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
-
-from train_classifier import tokenize
 
 def load_model(model_filepath):
     """Loads a pickled model from a filepath
