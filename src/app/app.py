@@ -2,22 +2,22 @@ import json
 import plotly
 import pandas as pd
 import joblib
-
-
 from flask import Flask
 from flask import render_template, request, jsonify
 from plotly.graph_objs import Bar
 from sqlalchemy import create_engine
 from src.utils import tokenize
+from src.app.api import api_bp
 
 app = Flask(__name__)
+app.register_blueprint(api_bp, url_prefix='/api')
 
 # load data
-engine = create_engine('sqlite:///../../data/processed/DisasterResponse.db')
-df = pd.read_sql_table('Message', engine)
+# engine = create_engine('sqlite:///../../data/processed/DisasterResponse.db')
+# df = pd.read_sql_table('Message', engine)
 
 # load model
-model = joblib.load("../../models/disaster_response_model.pkl")
+# model = joblib.load("../../models/disaster_response_model.pkl")
 
 
 # index webpage displays cool visuals and receives user input text for model
