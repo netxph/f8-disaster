@@ -1,6 +1,7 @@
 import re
 import os
 import pandas as pd
+import numpy as np
 from pathlib import Path
 from nltk.stem.wordnet import WordNetLemmatizer
 from nltk.corpus import stopwords
@@ -10,6 +11,8 @@ from sklearn.metrics import classification_report
 # cache these to speed up tokenization
 lemmatizer = WordNetLemmatizer()
 stop_words = stopwords.words("english")
+stop_words += ["http", "000", "co"]
+
 pattern = re.compile(r"[^a-zA-Z0-9]")
 
 def tokenize(text):
