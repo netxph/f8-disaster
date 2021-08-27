@@ -6,3 +6,4 @@ SQLAlchemy
 nltk
 gensim
 python-Levenshtein
+plotly
