@@ -1,5 +1,7 @@
 import re
+import os
 import pandas as pd
+from pathlib import Path
 from nltk.stem.wordnet import WordNetLemmatizer
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
@@ -81,3 +83,8 @@ def get_metrics(y_test, y_pred):
         })
 
     return pd.DataFrame.from_records(scores)
+
+def get_path(current, path):
+    path = os.path.abspath(f"{os.path.dirname(os.path.abspath(current))}/{path}")
+
+    return Path(path).as_posix()
