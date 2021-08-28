@@ -2,8 +2,6 @@
 
 F8 Disaster Response - Message Classification Pipeline Project
 
-### Table of Contents
-
 ### Table of contents
 1. [Getting Started](#installation)
 2. [Project Motivation](#motivation)
