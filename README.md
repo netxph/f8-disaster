@@ -27,19 +27,24 @@ We are going to start on this step first as it prepares and creates the necessar
 
 1. Run the following to wrangle and clean the data and save it to an sqlite database. The filename destinations are important since these are the files that are referenced by the web application.
 
-> `python src/scripts/process_data.py data/raw/disaster_messages.csv data/raw/disaster_categories.csv data/processed/DisasterResponse.db`
+```
+python src/scripts/process_data.py data/raw/disaster_messages.csv data/raw/disaster_categories.csv data/processed/DisasterResponse.db
+```
 
 2. Once the execution above is done, `data/processed/DisasterResponse.db` should be created. We are going to use this database for training the model. Run the following to create the model. Again, model filename is important.
 
-> `python src/scripts/train_classifier.py data/processed/DisasterResponse.db models/disaster_response_model.pkl`
+```
+python src/scripts/train_classifier.py data/processed/DisasterResponse.db models/disaster_response_model.pkl
+```
 
 Running the script will take time as it tries to perform a number of fits. The model will be saved to `models/disaster_response_model.pkl`.
 
 3. Once the database and model are created, change your directory to the web application folder, then run.
 
-> `cd src/app`
-
-> `flask run`
+```
+cd src/app
+flask run
+```
 
 The web application will be hosted on port 5000. The hosted application has both web app and web API. The endpoints are the following:
 
@@ -88,11 +93,13 @@ Notebooks can be found under `notebooks` folder.
 
 Provided 3 scripts to prepare, train and test the model. These are located under `src/scripts`. Usage:
 
-> `python process_data.py <messages_filepath> <categories_filepath> <db_filepath>`
+```
+python process_data.py <messages_filepath> <categories_filepath> <db_filepath>
 
-> `python train_classifier.py <db_filepath> <model_filepath>`
+python train_classifier.py <db_filepath> <model_filepath>
 
-> `python test_classfier.py <model_filepath> <message>`
+python test_classfier.py <model_filepath> <message>
+```
 
 Lastly, raw data are zipped in the root directory `data.zip`. The contents of the zip file should be saved to `data/raw`.
 
