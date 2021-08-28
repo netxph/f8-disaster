@@ -8,3 +8,4 @@ gensim
 python-Levenshtein
 plotly
 flask
+jupyterlab
