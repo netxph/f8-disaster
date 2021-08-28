@@ -39,8 +39,9 @@
     <div>
       <h2>Message</h2>
       <p id="message-label">Message goes here</p>
+      <hr>
     </div>
-    <div>
+    <div id="category-badges">
       <span class="badge bg-primary">related</span>
       <span class="badge bg-primary">request</span>
       <span class="badge bg-primary">water</span>
@@ -85,10 +86,30 @@
       $("#classify-form").submit(function (e) {
         e.preventDefault();
 
-        $("#category-section").show();
         var message = $("#message-tb").val();
 
         $("#message-label").text(message);
+
+        $.get("api/messages/classify?" + $.param({"message": message}), function(data) {
+          $("#category-section").show();
+          $("#category-badges").empty();
+          
+          categories = JSON.parse(data);
+          
+          categories.forEach(function(category) {
+            console.log(category);
+            var badge
+
+            if(category.value === 1) {
+              badge = $("<span>").addClass("badge bg-light text-dark").text(category.category.replaceAll("_", " "));
+            } else {
+              badge = $("<span>").addClass("badge bg-primary").text(category.category.replaceAll("_", " "));
+            }
+
+            $("#category-badges").append(badge);
+          });
+
+        });
       });
     });
   </script>
