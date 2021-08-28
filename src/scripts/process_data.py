@@ -70,6 +70,7 @@ def save_data(df, database_filename):
         None
     """
     path = os.path.abspath(database_filename)
+    pathlib.Path(os.path.dirname(path)).mkdir(parents=True, exist_ok=True)
 
     path = pathlib.Path(path).as_uri().replace("file:", "sqlite:")
     engine = create_engine(path)

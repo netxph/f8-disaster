@@ -93,11 +93,14 @@ def evaluate_model(model, X_test, Y_test, category_names):
     y_pred = model.predict(X_test)
     metrics = get_metrics(Y_test, y_pred)
 
-    print(metrics.mean(numeric_only=True))
+    print(metrics[["category", "f1_macro_avg", "precision_macro_avg", "recall_macro_avg", "accuracy"]])
 
 
 def save_model(model, model_filepath):
-    joblib.dump(model, model_filepath)
+
+    path = os.path.abspath(model_filepath)
+    pathlib.Path(os.path.dirname(path)).mkdir(parents=True, exist_ok=True)
+    joblib.dump(model, path)
 
 def main():
     if len(sys.argv) == 3:
