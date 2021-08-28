@@ -23,9 +23,10 @@
     <p class="lead fw-normal">Test out the classification model to automatically classify an actual disaster response
       message.</p>
     <br>
-    <form>
+    <form id="classify-form">
       <div class="row">
-        <input type="text" class="form-control form-control-lg" placeholder="Enter message here">
+        <input id="message-tb" type="text" class="form-control form-control-lg" placeholder="Enter message here"
+          required>
       </div>
       <div class="row">
         <div class="col text-center">
@@ -34,32 +35,29 @@
       </div>
     </form>
   </div>
-  </div>
-  <div class="col-md-10 mx-auto my-5 text-center">
-      <hr>
-    <div id="message">
-      <h4 class="text-center">MESSAGE</h4>
-      <p id="message-label" class="text-center"><i>Message goes here</i></p>
+  <div id="category-section" class="col-md-10 p-lg-5 mx-auto my-5 bg-primary text-light rounded-3">
+    <div>
+      <h2>Message</h2>
+      <p id="message-label">Message goes here</p>
     </div>
     <div>
-      <span class="badge rounded-pill bg-success">related</span>
-      <span class="badge rounded-pill bg-success">request</span>
-      <span class="badge rounded-pill bg-success">water</span>
-      <span class="badge rounded-pill bg-success">offer</span>
-      <span class="badge rounded-pill bg-success">medical help</span>
-      <span class="badge rounded-pill bg-light text-dark">flood</span>
-      <span class="badge rounded-pill bg-light text-dark">earthquake</span>
-      <span class="badge rounded-pill bg-success">products</span>
-      <span class="badge rounded-pill bg-light text-dark">military</span>
-      <span class="badge rounded-pill bg-light text-dark">earthquake</span>
+      <span class="badge bg-primary">related</span>
+      <span class="badge bg-primary">request</span>
+      <span class="badge bg-primary">water</span>
+      <span class="badge bg-primary">offer</span>
+      <span class="badge bg-primary">medical help</span>
+      <span class="badge bg-light text-dark">flood</span>
+      <span class="badge bg-light text-dark">earthquake</span>
+      <span class="badge bg-primary">products</span>
+      <span class="badge bg-light text-dark">military</span>
+      <span class="badge bg-light text-dark">earthquake</span>
     </div>
-      <hr>
   </div>
   <div class="col-md-10 p-lg-5 mx-auto my-5">
-    <h1 class="display-4 fw-normal">Overview of Training Dataset</h1>
+    <h4 class="text-center">Overview of Training Dataset</h1>
 
-    <div id="fig-categories"></div>
-    <div id="fig-words"></div>
+      <div id="fig-categories"></div>
+      <div id="fig-words"></div>
   </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
@@ -70,7 +68,7 @@
 
   <script type="text/javascript">
     $(function () {
-      //$("#message").hide();
+      $("#category-section").hide();
 
       $.get("api/graph/categories", function (data) {
         var data = JSON.parse(data);
@@ -84,12 +82,10 @@
         Plotly.plot("fig-words", data.data, data.layout);
       });
 
-      $("#classify-btn").click(function (e) {
+      $("#classify-form").submit(function (e) {
         e.preventDefault();
 
-        $("#classify-frm").valid();
-
-        $("#message").show();
+        $("#category-section").show();
         var message = $("#message-tb").val();
 
         $("#message-label").text(message);
