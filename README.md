@@ -19,7 +19,8 @@ This project requires Python 3.x. Conda is optional but recommended.
 
 1. If you are using conda or any python environment managers, create any environment and switch to that environment.
 2. Go to the root directory of the project. Run `pip install -r requirements.txt`.
-3. In the root folder, there's a file `data.zip`. Unzip it and save the contents to `data/raw`. There should be two files in the folder, `disaster_messages.csv` and `disaster_categories.csv`. Create the missing folders as necessary.
+3. Run `pip install -e .` to take care of local imports.
+4. In the root folder, there's a file `data.zip`. Unzip it and save the contents to `data/raw`. There should be two files in the folder, `disaster_messages.csv` and `disaster_categories.csv`. Create the missing folders as necessary.
 
 **Running the web application**
 
