@@ -69,7 +69,9 @@ def save_data(df, database_filename):
     Returns:
         None
     """
-    path = pathlib.Path(os.path.abspath(database_filename)).as_uri().replace("file:", "sqlite:")
+    path = os.path.abspath(database_filename)
+
+    path = pathlib.Path(path).as_uri().replace("file:", "sqlite:")
     engine = create_engine(path)
     df.to_sql('Message', engine, if_exists="replace", index=False)
 

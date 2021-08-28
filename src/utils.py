@@ -11,7 +11,6 @@ from sklearn.metrics import classification_report
 # cache these to speed up tokenization
 lemmatizer = WordNetLemmatizer()
 stop_words = stopwords.words("english")
-stop_words += ["http", "000", "co"]
 
 pattern = re.compile(r"[^a-zA-Z0-9]")
 
