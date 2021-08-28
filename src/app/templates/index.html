@@ -44,17 +44,18 @@
 
         <div class="row">
           <div class="col-lg-12 form-group-lg">
-            <form action="/go" method="get">
+            <form id="classify-frm">
               <div class="form-group">
                 <input
+                  id="message-tb"
                   type="text"
                   class="form-control form-control-lg"
-                  name="query"
                   placeholder="Enter a message to classify"
+                  required
                 />
               </div>
-              <div class="form-check col-lg-offset-5 text-center">
-                <button type="submit" class="btn btn-lg btn-success">
+              <div class="form-check col-lg-offset-5">
+                <button id="classify-btn" type="submit" class="btn btn-lg btn-success">
                   Classify Message
                 </button>
               </div>
@@ -65,7 +66,7 @@
         <div id="message">
           <hr />
           <h4 class="text-center">MESSAGE</h4>
-          <p class="text-center"><i>Message goes here</i></p>
+          <p id="message-label" class="text-center"><i>Message goes here</i></p>
         </div>
       </div>
     </div>
@@ -93,6 +94,8 @@
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script type="text/javascript">
       $(function () {
+        $("#message").hide();
+
         $.get("api/graph/categories", function (data) {
           var data = JSON.parse(data);
 
@@ -103,6 +106,17 @@
           var data = JSON.parse(data);
 
           Plotly.plot("fig-words", data.data, data.layout);
+        });
+
+        $("#classify-btn").click(function (e) {
+          e.preventDefault();
+
+          $("#classify-frm").valid();
+
+          $("#message").show();
+          var message = $("#message-tb").val();
+
+          $("#message-label").text(message);
         });
       });
     </script>
