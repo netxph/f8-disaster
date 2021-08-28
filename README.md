@@ -7,7 +7,7 @@ F8 Disaster Response - Message Classification Pipeline Project
 ### Table of contents
 1. [Getting Started](#installation)
 2. [Project Motivation](#motivation)
-3. [File Descriptions](#files)
+3. [File Descriptions](#folders)
 4. [Study Notes](#notes)
 5. [Licensing, Authors, and Acknowledgements](#licensing)
 
@@ -15,30 +15,31 @@ F8 Disaster Response - Message Classification Pipeline Project
 
 **Preparation**
 
-This project will run running on Python 3.x. Conda is optional but recommended.
+This project requires Python 3.x. Conda is optional but recommended.
 
-1. (If you are using conda or any python environment managers), create any environment and switch to that environment.
+1. If you are using conda or any python environment managers, create any environment and switch to that environment.
 2. Go to the root directory of the project. Run `pip install -r requirements.txt`.
-3. In the root folder, there's a file `data.zip`. Unzip it and save the contents to `data/raw`. There should be 2 files in the folder, `disaster_messages.csv` and `disaster_categories.csv`. Create the folder as necessary.
+3. In the root folder, there's a file `data.zip`. Unzip it and save the contents to `data/raw`. There should be two files in the folder, `disaster_messages.csv` and `disaster_categories.csv`. Create the missing folders as necessary.
 
 **Running the web application**
 
 We are going to start on this step first as it prepares and creates the necessary folders needed both by the web application and running the notebooks.
 
-1. Run the following to wrangle and clean the data and save it to an sqlite database. The filename destinations are important since these are the files that are looked by the web application.
+1. Run the following to wrangle and clean the data and save it to an sqlite database. The filename destinations are important since these are the files that are referenced by the web application.
 
-> python src/scripts/process_data.py data/raw/disaster_messages.csv data/raw/disaster_categories.csv data/processed/DisasterResponse.db
+> `python src/scripts/process_data.py data/raw/disaster_messages.csv data/raw/disaster_categories.csv data/processed/DisasterResponse.db`
 
-2. Once the execution above is done, `data/processed/DisasterResponse.db` should be created. We are going to use this database for training the model. Run the following to create the model.
+2. Once the execution above is done, `data/processed/DisasterResponse.db` should be created. We are going to use this database for training the model. Run the following to create the model. Again, model filename is important.
 
-> python src/scripts/train_classifier.py data/processed/DisasterResponse.db models/disaster_response_model.pkl
+> `python src/scripts/train_classifier.py data/processed/DisasterResponse.db models/disaster_response_model.pkl`
 
 Running the script will take time as it tries to perform a number of fits. The model will be saved to `models/disaster_response_model.pkl`.
 
 3. Once the database and model are created, change your directory to the web application folder, then run.
 
-> cd src/app
-> flask run
+> `cd src/app`
+
+> `flask run`
 
 The web application will be hosted on port 5000. The hosted application has both web app and web API. The endpoints are the following:
 
@@ -65,7 +66,7 @@ NOTE: The web application will have a slow start (graphs will take time to load)
 
 **Running the notebooks**
 
-If you have done the steps above, the notebooks should run, since the folders and data needed are already created. 
+If you have done the steps above, the notebooks should run with no problems, since the folders and data needed are already created. Just make sure you use the correct kernel with the environment you used above.
 
 The notebooks are prefixed with number as to indicate which is the first one to run. We recommend to run in this order to simulate the thought process of coming up with the pipeline. The notebooks are located under `notebooks` folder.
 
@@ -73,11 +74,11 @@ These notebooks should run with `Jupyter` and its derivatives including `Visual 
 
 ## Project Motivation <a name="motivation"></a>
 
-This project aims to create a pipeline to classify disaster response message into different categories. This project will walk through the steps discussed in the notebooks. The generated code from the notebooks are then transferred to scripts that will make use to automate the pipeline from data wrangling, cleaning, analysis, and modeling.
+This project aims to create a pipeline to classify disaster response message into different categories. Also, it will walk you through the steps discussed in the notebooks. The generated code from the notebooks are then transferred to scripts that will make use to automate the pipeline from data wrangling, cleaning, analysis, and modeling. This will greatly speed up later in creating and consuming the model, as well as retraining them when they starts to decay.
 
-## File Descriptions <a name="files"></a>
+## File Descriptions <a name="folders"></a>
 
-Web app and API is hosted in `src/app`.
+Web app and API are hosted in `src/app`.
 
 Notebooks can be found under `notebooks` folder. 
 
@@ -88,7 +89,9 @@ Notebooks can be found under `notebooks` folder.
 Provided 3 scripts to prepare, train and test the model. These are located under `src/scripts`. Usage:
 
 > `python process_data.py <messages_filepath> <categories_filepath> <db_filepath>`
+
 > `python train_classifier.py <db_filepath> <model_filepath>`
+
 > `python test_classfier.py <model_filepath> <message>`
 
 Lastly, raw data are zipped in the root directory `data.zip`. The contents of the zip file should be saved to `data/raw`.
@@ -101,7 +104,7 @@ The data is also imbalance as the number of messages in each category is not equ
 
 During training the model, I've chosen algorithm that are fast to train. These are Multinomial Naive Bayes, Logistic Regression and Linear Support Vector Classifier. With more powerful computing power, we can also apply K-Nearest Neighbors, Random Forest, Extra Trees, and Gradient Boosting Classifier, but this requires a lot of time to tune and train.
 
-The though process during tuning with `GridSearchCV` is I tried to look for any configurable components both in text processing and model. I then selected the parameters that greatly impact the score of the models. With that I ended up tweaking the n-grams (unigram, bigram) and the minimum word count (min_df) to get the best score.
+The thought process during tuning with `GridSearchCV` is I tried to look for any configurable components both in text processing and model. I then selected the parameters that greatly impact the score of the models. With that I ended up tweaking the n-grams (unigram, bigram) and the minimum word count (min_df) to get the best score.
 
 ## Licensing, Authors, Acknoledgements <a name="licensing"></a>
 
