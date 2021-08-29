@@ -24,7 +24,8 @@ def load_data(database_filepath):
         df (pandas.DataFrame): The dataframe containing the data
     """
 
-    path = pathlib.Path(os.path.abspath(database_filepath)).as_uri().replace("file:", "sqlite:")
+    path = os.path.abspath(database_filepath)
+    path = f"sqlite:///{pathlib.Path(path).as_posix()}"
     engine = create_engine(path)
 
     df = pd.read_sql("SELECT * FROM Message", engine)
