@@ -2,17 +2,23 @@ import re
 import os
 import pandas as pd
 import numpy as np
+import nltk
 from pathlib import Path
 from nltk.stem.wordnet import WordNetLemmatizer
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from sklearn.metrics import classification_report
 
+# download nltk packages
+nltk.download(['punkt', 'stopwords', 'wordnet'], quiet=True)
+
 # cache these to speed up tokenization
 lemmatizer = WordNetLemmatizer()
 stop_words = stopwords.words("english")
 
 pattern = re.compile(r"[^a-zA-Z0-9]")
+
+
 
 def tokenize(text):
     """Tokenizes the text
